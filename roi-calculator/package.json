@@ -18,6 +18,7 @@
 		"@wordpress/scripts": "^30.16.0"
 	},
 	"dependencies": {
+		"@wordpress/i18n": "^5.23.0",
 		"sass": "^1.87.0"
 	}
 }

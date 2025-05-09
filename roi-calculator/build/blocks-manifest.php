@@ -16,6 +16,20 @@ return array(
 		'supports' => array(
 			'html' => false
 		),
+		'attributes' => array(
+			'inputFields' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
+			),
+			'calculatedFields' => array(
+				'type' => 'array',
+				'default' => array(
+					
+				)
+			)
+		),
 		'textdomain' => 'roi-calculator',
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',

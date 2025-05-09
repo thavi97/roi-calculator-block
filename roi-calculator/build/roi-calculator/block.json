@@ -11,6 +11,16 @@
   "supports": {
     "html": false
   },
+  "attributes": {
+    "inputFields": {
+      "type": "array",
+      "default": []
+    },
+    "calculatedFields": {
+      "type": "array",
+      "default": []
+    }
+  },
   "textdomain": "roi-calculator",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

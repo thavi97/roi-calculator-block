@@ -1,41 +1,130 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+export default function Edit({ attributes, setAttributes }) {
+	const { inputFields = [], calculatedFields = [] } = attributes;
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './editor.scss';
+	// Update input field attributes
+	const updateInputField = (index, key, value) => {
+		const newFields = [...inputFields];
+		newFields[index][key] = value;
+		setAttributes({ inputFields: newFields });
+	};
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+	// Add a new input field
+	const addInputField = () => {
+		setAttributes({
+			inputFields: [
+				...inputFields,
+				{ label: '', key: '', type: 'number', placeholder: '' }
+			]
+		});
+	};
+
+	// Remove an input field
+	const removeInputField = (index) => {
+		const newFields = inputFields.filter((_, i) => i !== index);
+		setAttributes({ inputFields: newFields });
+	};
+
+	// Update calculated field attributes
+	const updateCalculatedField = (index, key, value) => {
+		const newFields = [...calculatedFields];
+		newFields[index][key] = value;
+		setAttributes({ calculatedFields: newFields });
+	};
+
+	// Add a new calculated field
+	const addCalculatedField = () => {
+		setAttributes({
+			calculatedFields: [
+				...calculatedFields,
+				{ label: '', key: '', formula: '' }
+			]
+		});
+	};
+
+	// Remove a calculated field
+	const removeCalculatedField = (index) => {
+		const newFields = calculatedFields.filter((_, i) => i !== index);
+		setAttributes({ calculatedFields: newFields });
+	};
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Roi Calculator – hello from the editor!',
-				'roi-calculator'
-			) }
-		</p>
+		<div {...useBlockProps()}>
+			<InspectorControls>
+				<PanelBody title="Input Fields" initialOpen={true}>
+					{inputFields.map((field, index) => (
+						<Fragment key={index}>
+							<TextControl
+								label="Label"
+								value={field.label}
+								onChange={(val) => updateInputField(index, 'label', val)}
+							/>
+							<TextControl
+								label="Key (unique identifier)"
+								value={field.key}
+								onChange={(val) => updateInputField(index, 'key', val)}
+							/>
+							<SelectControl
+								label="Input Type"
+								value={field.type}
+								options={[
+									{ label: 'Number', value: 'number' },
+									{ label: 'Text', value: 'text' },
+									{ label: 'Email', value: 'email' },
+									{ label: 'Password', value: 'password' },
+									{ label: 'Tel', value: 'tel' },
+									{ label: 'Date', value: 'date' },
+								]}
+								onChange={(val) => updateInputField(index, 'type', val)}
+							/>
+							<TextControl
+								label="Placeholder"
+								value={field.placeholder}
+								onChange={(val) => updateInputField(index, 'placeholder', val)}
+							/>
+							<Button isDestructive onClick={() => removeInputField(index)}>
+								Remove Field
+							</Button>
+							<hr />
+						</Fragment>
+					))}
+					<Button isPrimary onClick={addInputField}>Add Input Field</Button>
+				</PanelBody>
+
+				<PanelBody title="Calculated Fields" initialOpen={false}>
+					{calculatedFields.map((field, index) => (
+						<Fragment key={index}>
+							<TextControl
+								label="Label"
+								value={field.label}
+								onChange={(val) => updateCalculatedField(index, 'label', val)}
+							/>
+							<TextControl
+								label="Key"
+								value={field.key}
+								onChange={(val) => updateCalculatedField(index, 'key', val)}
+							/>
+							<TextControl
+								label="Formula (e.g., input1 * input2 + 10)"
+								value={field.formula}
+								onChange={(val) => updateCalculatedField(index, 'formula', val)}
+							/>
+							<Button isDestructive onClick={() => removeCalculatedField(index)}>
+								Remove Field
+							</Button>
+							<hr />
+						</Fragment>
+					))}
+					<Button isPrimary onClick={addCalculatedField}>Add Calculated Field</Button>
+				</PanelBody>
+			</InspectorControls>
+
+			<div className="roi-editor-placeholder">
+				<p><strong>ROI Calculator</strong></p>
+			</div>
+		</div>
 	);
 }
