@@ -1,8 +1,11 @@
+import { evaluateFormula } from './evaluateFormula';
+
 document.addEventListener('DOMContentLoaded', () => {
+	// Iterate over each ROI Calculator block on the page
 	document.querySelectorAll('.roi-calculator').forEach((calc) => {
-		const inputs = calc.querySelectorAll('input');
-		const resultElems = calc.querySelectorAll('.roi-result');
-		const formulas = JSON.parse(calc.dataset.calculations || '[]'); // Get formulas from the block
+		const inputs = calc.querySelectorAll('input');  // Get all input fields
+		const resultElems = calc.querySelectorAll('.roi-result');  // Get all result display elements
+		const formulas = JSON.parse(calc.dataset.calculations || '[]');  // Get formulas from the block's data attribute
 
 		// Function to perform calculation
 		const calculate = () => {
@@ -11,41 +14,68 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Collect all input values
 			inputs.forEach(input => {
 				const key = input.dataset.key;
-				let value = parseFloat(input.value) || 0;
+				let value;
 
-				// Handle different input types (e.g., number, text, etc.)
-				if (input.type === 'number' || input.type === 'tel') {
+				if (input.type === 'range') {
+					// For range inputs, we get the value and update the adjacent span
 					value = parseFloat(input.value) || 0;
-				} else if (input.type === 'text' || input.type === 'email') {
-					value = input.value.trim();
+
+					const isPercentage = input.dataset.percentage === 'yes';
+
+					// Update the displayed value of the range slider dynamically
+					const rangeValueDisplay = input.nextElementSibling;
+					if (rangeValueDisplay) {
+						rangeValueDisplay.textContent = value + (isPercentage ? '%' : '');
+					}
+				} else {
+					// For other input types (number, text), use the input's value
+					value = parseFloat(input.value) || 0;
 				}
 
-				// Store the value by key (same as in the editor)
 				values[key] = value;
 			});
 
-			// Update the result elements based on the formula for each calculated field
-			formulas.forEach(field => {
-				try {
-					// Evaluate the formula using the current input values
-					const result = Function(...Object.keys(values), `return ${field.formula}`)(...Object.values(values));
-					const el = calc.querySelector(`.roi-result[data-key="${field.key}"] span`);
+			// Evaluate calculated fields in dependency order
+			// Clone formulas to avoid modifying the original array
+			const remaining = [...formulas];
+			const valuesCopy = { ...values }; // This includes user input + calculated results
 
-					// Update the result value or show an error
-					if (el) {
-						el.textContent = isNaN(result) ? 'Error' : result.toFixed(2);
+			let safetyCounter = 100; // Prevent infinite loop
+
+			while (remaining.length && safetyCounter--) {
+				for (let i = 0; i < remaining.length; i++) {
+					const field = remaining[i];
+					try {
+						// Try evaluating with current known values
+						const result = evaluateFormula(field.formula, valuesCopy);
+
+						if (result !== 'Error') {
+							valuesCopy[field.key] = result;
+
+							// Update DOM
+							const el = calc.querySelector(`.roi-result[data-key="${field.key}"] span`);
+							if (el) {
+								el.textContent = isNaN(result) ? 'Error' : result.toFixed(2);
+							}
+
+							// Remove from remaining to calculate
+							remaining.splice(i, 1);
+							i--; // Adjust index after removal
+						}
+					} catch (e) {
+						// If error, skip and try again later
 					}
-				} catch {
-					const el = calc.querySelector(`.roi-result[data-key="${field.key}"] span`);
-					if (el) el.textContent = 'Error';
 				}
-			});
+			}
+
+
 		};
 
-		// Add event listeners to input fields
+		// Event listeners for input changes to trigger the calculation
 		inputs.forEach(input => input.addEventListener('input', calculate));
 
-		// Perform calculation once on load to set initial values
+		// Initial calculation to set the default result values
 		calculate();
 	});
 });
+

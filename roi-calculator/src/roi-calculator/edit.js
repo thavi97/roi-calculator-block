@@ -63,7 +63,7 @@ export default function Edit({ attributes, setAttributes }) {
 								onChange={(val) => updateInputField(index, 'label', val)}
 							/>
 							<TextControl
-								label="Key (unique identifier)"
+								label="Key"
 								value={field.key}
 								onChange={(val) => updateInputField(index, 'key', val)}
 							/>
@@ -73,26 +73,61 @@ export default function Edit({ attributes, setAttributes }) {
 								options={[
 									{ label: 'Number', value: 'number' },
 									{ label: 'Text', value: 'text' },
-									{ label: 'Email', value: 'email' },
-									{ label: 'Password', value: 'password' },
-									{ label: 'Tel', value: 'tel' },
-									{ label: 'Date', value: 'date' },
+									{ label: 'Slider', value: 'range' },
 								]}
 								onChange={(val) => updateInputField(index, 'type', val)}
+							/>													
+							{field.type === 'range' && (
+								<SelectControl
+									label="Is Percentage"
+									value={field.isPercentage || 'no'}
+									options={[
+										{ label: 'Yes', value: 'yes' },
+										{ label: 'No', value: 'no' },
+									]}
+									onChange={(val) => updateInputField(index, 'isPercentage', val)}
+								/>
+							)}
+							<TextControl
+								label="Min Value"
+								value={field.min}
+								onChange={(val) => {
+									// Update the min value and ensure max is not smaller than min
+									const newMin = parseFloat(val) || 0;
+									if (field.max && newMin > parseFloat(field.max)) {
+										updateInputField(index, 'max', newMin);
+									}
+									updateInputField(index, 'min', newMin);
+								}}
+								type="number"
+								step="1"
+								placeholder="Enter minimum value"
 							/>
 							<TextControl
-								label="Placeholder"
-								value={field.placeholder}
-								onChange={(val) => updateInputField(index, 'placeholder', val)}
+								label="Max Value"
+								value={field.max}
+								onChange={(val) => {
+									// Update the max value and ensure min is not larger than max
+									const newMax = parseFloat(val) || 0;
+									if (field.min && newMax < parseFloat(field.min)) {
+										updateInputField(index, 'min', newMax);
+									}
+									updateInputField(index, 'max', newMax);
+								}}
+								type="number"
+								step="1"
+								placeholder="Enter maximum value"
 							/>
+
 							<Button isDestructive onClick={() => removeInputField(index)}>
 								Remove Field
 							</Button>
 							<hr />
 						</Fragment>
 					))}
-					<Button isPrimary onClick={addInputField}>Add Input Field</Button>
+					<Button onClick={addInputField}>Add Input Field</Button>
 				</PanelBody>
+
 
 				<PanelBody title="Calculated Fields" initialOpen={false}>
 					{calculatedFields.map((field, index) => (
@@ -118,7 +153,7 @@ export default function Edit({ attributes, setAttributes }) {
 							<hr />
 						</Fragment>
 					))}
-					<Button isPrimary onClick={addCalculatedField}>Add Calculated Field</Button>
+					<Button onClick={addCalculatedField}>Add Calculated Field</Button>
 				</PanelBody>
 			</InspectorControls>
 

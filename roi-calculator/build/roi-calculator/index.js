@@ -111,7 +111,7 @@ function Edit({
             value: field.label,
             onChange: val => updateInputField(index, 'label', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Key (unique identifier)",
+            label: "Key",
             value: field.key,
             onChange: val => updateInputField(index, 'key', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
@@ -124,30 +124,55 @@ function Edit({
               label: 'Text',
               value: 'text'
             }, {
-              label: 'Email',
-              value: 'email'
-            }, {
-              label: 'Password',
-              value: 'password'
-            }, {
-              label: 'Tel',
-              value: 'tel'
-            }, {
-              label: 'Date',
-              value: 'date'
+              label: 'Slider',
+              value: 'range'
             }],
             onChange: val => updateInputField(index, 'type', val)
+          }), field.type === 'range' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+            label: "Is Percentage",
+            value: field.isPercentage || 'no',
+            options: [{
+              label: 'Yes',
+              value: 'yes'
+            }, {
+              label: 'No',
+              value: 'no'
+            }],
+            onChange: val => updateInputField(index, 'isPercentage', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Placeholder",
-            value: field.placeholder,
-            onChange: val => updateInputField(index, 'placeholder', val)
+            label: "Min Value",
+            value: field.min,
+            onChange: val => {
+              // Update the min value and ensure max is not smaller than min
+              const newMin = parseFloat(val) || 0;
+              if (field.max && newMin > parseFloat(field.max)) {
+                updateInputField(index, 'max', newMin);
+              }
+              updateInputField(index, 'min', newMin);
+            },
+            type: "number",
+            step: "1",
+            placeholder: "Enter minimum value"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Max Value",
+            value: field.max,
+            onChange: val => {
+              // Update the max value and ensure min is not larger than max
+              const newMax = parseFloat(val) || 0;
+              if (field.min && newMax < parseFloat(field.min)) {
+                updateInputField(index, 'min', newMax);
+              }
+              updateInputField(index, 'max', newMax);
+            },
+            type: "number",
+            step: "1",
+            placeholder: "Enter maximum value"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             isDestructive: true,
             onClick: () => removeInputField(index),
             children: "Remove Field"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", {})]
         }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-          isPrimary: true,
           onClick: addInputField,
           children: "Add Input Field"
         })]
@@ -173,7 +198,6 @@ function Edit({
             children: "Remove Field"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", {})]
         }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-          isPrimary: true,
           onClick: addCalculatedField,
           children: "Add Calculated Field"
         })]
