@@ -2,12 +2,17 @@ $blue: #286cfc;
 $white: #ffffff;
 $green: #0cfbac;
 
+:root {
+    --base-font-size: 16px; /* Default font size, can be updated via JS */
+}
+
 .roi-calculator {
 	display: block;
 	background-color: $blue;
 	padding: 2.5rem 0;
 	border-radius: 20px;
 	color: $white;
+	font-size: var(--base-font-size); /* Use the root font size variable */
 
 	.roi-label {
 		position: relative;
@@ -43,13 +48,14 @@ $green: #0cfbac;
 		.roi-result {
 			span {
 				font-weight: bold;
+				font-size: 1rem;
 			}
 
 		}
 
 		.big-font {
 			span {
-				font-size: 26px;
+				font-size: 2rem;
 			}
 		}
 

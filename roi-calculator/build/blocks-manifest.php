@@ -8,7 +8,7 @@ return array(
 		'version' => '0.1.0',
 		'title' => 'Roi Calculator',
 		'category' => 'widgets',
-		'icon' => 'smiley',
+		'icon' => 'calculator',
 		'description' => 'Example block scaffolded with Create Block tool.',
 		'example' => array(
 			
@@ -40,6 +40,10 @@ return array(
 			'sliderColor' => array(
 				'type' => 'string',
 				'default' => '#00cc66'
+			),
+			'fontSize' => array(
+				'type' => 'string',
+				'default' => '16px'
 			)
 		),
 		'textdomain' => 'roi-calculator',

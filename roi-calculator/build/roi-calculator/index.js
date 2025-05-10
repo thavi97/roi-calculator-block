@@ -8,7 +8,7 @@
   \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/roi-calculator","version":"0.1.0","title":"Roi Calculator","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"inputFields":{"type":"array","default":[]},"calculatedFields":{"type":"array","default":[]},"backgroundColor":{"type":"string","default":"#286cfc"},"textColor":{"type":"string","default":"#ffffff"},"sliderColor":{"type":"string","default":"#00cc66"}},"textdomain":"roi-calculator","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/roi-calculator","version":"0.1.0","title":"Roi Calculator","category":"widgets","icon":"calculator","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"inputFields":{"type":"array","default":[]},"calculatedFields":{"type":"array","default":[]},"backgroundColor":{"type":"string","default":"#286cfc"},"textColor":{"type":"string","default":"#ffffff"},"sliderColor":{"type":"string","default":"#00cc66"},"fontSize":{"type":"string","default":"16px"}},"textdomain":"roi-calculator","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -43,8 +43,17 @@ function Edit({
     calculatedFields = [],
     backgroundColor = '#286cfc',
     textColor = '#ffffff',
-    sliderColor = '#00cc66'
+    sliderColor = '#00cc66',
+    fontSize = '16px'
   } = attributes;
+
+  // Update font size attribute
+  const updateFontSize = newFontSize => {
+    setAttributes({
+      fontSize: newFontSize
+    });
+    document.documentElement.style.setProperty('--base-font-size', newFontSize); // Apply to root CSS
+  };
 
   // Update input field attributes
   const updateInputField = (index, key, value) => {
@@ -127,6 +136,33 @@ function Edit({
             sliderColor: color
           })
         }]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: "Font Size",
+        initialOpen: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.FontSizePicker, {
+          value: fontSize,
+          onChange: newSize => setAttributes({
+            fontSize: newSize
+          }),
+          withSlider: true,
+          fontSizes: [{
+            name: 'Small',
+            slug: 'small',
+            size: '14px'
+          }, {
+            name: 'Medium',
+            slug: 'medium',
+            size: '16px'
+          }, {
+            name: 'Large',
+            slug: 'large',
+            size: '20px'
+          }, {
+            name: 'Extra Large',
+            slug: 'extra-large',
+            size: '24px'
+          }]
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
         title: "Input Fields",
         initialOpen: true,
@@ -250,13 +286,15 @@ function Edit({
           children: "Add Calculated Field"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "roi-editor-placeholder",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
           children: "ROI Calculator"
         })
-      })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        children: "Please configure the block using the editor on the right pane"
+      })]
     })]
   });
 }

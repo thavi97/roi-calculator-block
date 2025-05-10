@@ -1,5 +1,5 @@
 import { useBlockProps, InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl,  Button } from '@wordpress/components';
+import { PanelBody, TextControl, SelectControl, FontSizePicker, Button } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -9,7 +9,14 @@ export default function Edit({ attributes, setAttributes }) {
 		backgroundColor = '#286cfc',
 		textColor = '#ffffff',
 		sliderColor = '#00cc66',
+		fontSize = '16px',
 	} = attributes;
+
+	// Update font size attribute
+	const updateFontSize = (newFontSize) => {
+		setAttributes({ fontSize: newFontSize });
+		document.documentElement.style.setProperty('--base-font-size', newFontSize); // Apply to root CSS
+	};
 
 
 	// Update input field attributes
@@ -61,7 +68,7 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
-				
+
 				<PanelColorSettings
 					title="Color Settings"
 					initialOpen={true}
@@ -83,6 +90,21 @@ export default function Edit({ attributes, setAttributes }) {
 						},
 					]}
 				/>
+
+				<PanelBody title="Font Size" initialOpen={true}>
+					<FontSizePicker
+						value={fontSize}
+						onChange={(newSize) => setAttributes({ fontSize: newSize })}
+						withSlider
+						fontSizes={[
+							{ name: 'Small', slug: 'small', size: '14px' },
+							{ name: 'Medium', slug: 'medium', size: '16px' },
+							{ name: 'Large', slug: 'large', size: '20px' },
+							{ name: 'Extra Large', slug: 'extra-large', size: '24px' },
+						]}
+					/>
+				</PanelBody>
+
 
 				<PanelBody title="Input Fields" initialOpen={true}>
 					{inputFields.map((field, index) => (
@@ -209,6 +231,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div className="roi-editor-placeholder">
 				<p><strong>ROI Calculator</strong></p>
+				<p>Please configure the block using the editor on the right pane</p>
 			</div>
 		</div>
 	);

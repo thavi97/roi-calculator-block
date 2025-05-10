@@ -1,12 +1,17 @@
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/roi-calculator/style.scss ***!
   \******************************************************************************************************************************************************************************************************************************************************/
+:root {
+  --base-font-size: 16px; /* Default font size, can be updated via JS */
+}
+
 .roi-calculator {
   display: block;
   background-color: #286cfc;
   padding: 2.5rem 0;
   border-radius: 20px;
   color: #ffffff;
+  font-size: var(--base-font-size); /* Use the root font size variable */
 }
 .roi-calculator .roi-label {
   position: relative;
@@ -36,9 +41,10 @@
 }
 .roi-calculator .roi-results .roi-result span {
   font-weight: bold;
+  font-size: 1rem;
 }
 .roi-calculator .roi-results .big-font span {
-  font-size: 26px;
+  font-size: 2rem;
 }
 .roi-calculator input[type=range] {
   -webkit-appearance: none;
