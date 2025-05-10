@@ -28,6 +28,18 @@ return array(
 				'default' => array(
 					
 				)
+			),
+			'backgroundColor' => array(
+				'type' => 'string',
+				'default' => '#286cfc'
+			),
+			'textColor' => array(
+				'type' => 'string',
+				'default' => '#ffffff'
+			),
+			'sliderColor' => array(
+				'type' => 'string',
+				'default' => '#00cc66'
 			)
 		),
 		'textdomain' => 'roi-calculator',

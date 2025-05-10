@@ -19,6 +19,18 @@
     "calculatedFields": {
       "type": "array",
       "default": []
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "#286cfc"
+    },
+    "textColor": {
+      "type": "string",
+      "default": "#ffffff"
+    },
+    "sliderColor": {
+      "type": "string",
+      "default": "#00cc66"
     }
   },
   "textdomain": "roi-calculator",

@@ -1,9 +1,16 @@
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/components';
+import { useBlockProps, InspectorControls, PanelColorSettings } from '@wordpress/block-editor';
+import { PanelBody, TextControl, SelectControl,  Button } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 
 export default function Edit({ attributes, setAttributes }) {
-	const { inputFields = [], calculatedFields = [] } = attributes;
+	const {
+		inputFields = [],
+		calculatedFields = [],
+		backgroundColor = '#286cfc',
+		textColor = '#ffffff',
+		sliderColor = '#00cc66',
+	} = attributes;
+
 
 	// Update input field attributes
 	const updateInputField = (index, key, value) => {
@@ -54,6 +61,29 @@ export default function Edit({ attributes, setAttributes }) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
+				
+				<PanelColorSettings
+					title="Color Settings"
+					initialOpen={true}
+					colorSettings={[
+						{
+							label: 'Background Color',
+							value: backgroundColor,
+							onChange: (color) => setAttributes({ backgroundColor: color }),
+						},
+						{
+							label: 'Text Color',
+							value: textColor,
+							onChange: (color) => setAttributes({ textColor: color }),
+						},
+						{
+							label: 'Slider Color',
+							value: sliderColor,
+							onChange: (color) => setAttributes({ sliderColor: color }),
+						},
+					]}
+				/>
+
 				<PanelBody title="Input Fields" initialOpen={true}>
 					{inputFields.map((field, index) => (
 						<Fragment key={index}>
@@ -128,7 +158,7 @@ export default function Edit({ attributes, setAttributes }) {
 								type="number"
 								step="0.01"
 								placeholder="Enter step value (Default: 1)"
-							/>						
+							/>
 							<Button isDestructive onClick={() => removeInputField(index)}>
 								Remove Field
 							</Button>

@@ -8,7 +8,7 @@
   \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/roi-calculator","version":"0.1.0","title":"Roi Calculator","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"inputFields":{"type":"array","default":[]},"calculatedFields":{"type":"array","default":[]}},"textdomain":"roi-calculator","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/roi-calculator","version":"0.1.0","title":"Roi Calculator","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"inputFields":{"type":"array","default":[]},"calculatedFields":{"type":"array","default":[]},"backgroundColor":{"type":"string","default":"#286cfc"},"textColor":{"type":"string","default":"#ffffff"},"sliderColor":{"type":"string","default":"#00cc66"}},"textdomain":"roi-calculator","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -40,7 +40,10 @@ function Edit({
 }) {
   const {
     inputFields = [],
-    calculatedFields = []
+    calculatedFields = [],
+    backgroundColor = '#286cfc',
+    textColor = '#ffffff',
+    sliderColor = '#00cc66'
   } = attributes;
 
   // Update input field attributes
@@ -102,7 +105,29 @@ function Edit({
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.PanelColorSettings, {
+        title: "Color Settings",
+        initialOpen: true,
+        colorSettings: [{
+          label: 'Background Color',
+          value: backgroundColor,
+          onChange: color => setAttributes({
+            backgroundColor: color
+          })
+        }, {
+          label: 'Text Color',
+          value: textColor,
+          onChange: color => setAttributes({
+            textColor: color
+          })
+        }, {
+          label: 'Slider Color',
+          value: sliderColor,
+          onChange: color => setAttributes({
+            sliderColor: color
+          })
+        }]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
         title: "Input Fields",
         initialOpen: true,
         children: [inputFields.map((field, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
