@@ -15,6 +15,26 @@ function roi_calculator_block_init()
 }
 add_action('init', 'roi_calculator_block_init');
 
+function my_roi_calculator_enqueue_bootstrap()
+{
+	// Bootstrap CSS
+	wp_enqueue_style(
+		'bootstrap-css',
+		'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
+	);
+
+	// Bootstrap JS (includes Popper)
+	wp_enqueue_script(
+		'bootstrap-js',
+		'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+		[],
+		null,
+		true
+	);
+}
+add_action('wp_enqueue_scripts', 'my_roi_calculator_enqueue_bootstrap');
+
+
 /**
  * Callback function for rendering the ROI Calculator Block on the frontend.
  *
@@ -29,32 +49,55 @@ function roi_calculator_block_render_callback($attributes)
 	ob_start();
 ?>
 	<div class="roi-calculator" data-calculations='<?= esc_attr(wp_json_encode($calculated_fields)); ?>'>
-		<?php foreach ($input_fields as $field) : ?>
-			<div class="roi-field">
-				<label>
-					<?= esc_html($field['label']); ?>
-					<input type="<?= esc_attr($field['type'] === 'range' ? 'range' : $field['type']); ?>"
-						data-key="<?= esc_attr($field['key']); ?>"
-						data-percentage="<?= esc_attr( $field['isPercentage'] ?? 'no' ); ?>"
-						min="<?= esc_attr($field['min'] ?? 0); ?>"
-						max="<?= esc_attr($field['max'] ?? 100); ?>"
-						step="0.01"
-						value="<?= esc_attr($field['value'] ?? ($field['type'] === 'range' ? 50 : '')); ?>" />
-					<?php if ('range' === $field['type']) : ?>
-						<span class="range-value">
-							<?= esc_attr($field['value'] ?? 50); ?><?= $field['isPercentage'] === 'yes' ? '%' : ''; ?>
-						</span> <?php endif; ?>
-				</label>
-			</div>
-		<?php endforeach; ?>
+		<div class="row">
+			<?php foreach ($input_fields as $field) : ?>
+				<div class="col-md-6">
+					<label class="roi-label">
+						<?= esc_html($field['label']); ?>
+						<input 
+							type="<?= esc_attr($field['type'] === 'range' ? 'range' : ($field['type'] === 'money' ? 'number' : $field['type'])); ?>"
+							data-type="<?= esc_attr($field['type']); ?>"
+							data-key="<?= esc_attr($field['key']); ?>"
+							data-percentage="<?= esc_attr($field['isPercentage'] ?? 'no'); ?>"
+							min="<?= esc_attr($field['min'] ?? 0); ?>"
+							max="<?= esc_attr($field['max'] ?? 100); ?>"
+							step="<?= esc_attr($field['step'] ?? 1); ?>"
+							value="<?= esc_attr($field['value'] ?? ($field['type'] === 'range' ? 50 : '')); ?>" />
+						<?php if ('range' === $field['type']) : ?>
+							<span class="range-value">
+								<?php
+								$value = isset($field['value']) ? $field['value'] : '';
+								$isPercentage = isset($field['isPercentage']) && $field['isPercentage'] === 'yes';
+								?>
+								<?= esc_attr($value); ?><?= $isPercentage ? '%' : ''; ?>
 
-		<div class="roi-results">
-			<?php foreach ($calculated_fields as $field) : ?>
-				<p class="roi-result" data-key="<?= esc_attr($field['key']); ?>">
-					<?= esc_html($field['label']); ?>: <span>0</span>
-				</p>
+							</span> <?php endif; ?>
+					</label>
+				</div>
+
 			<?php endforeach; ?>
 		</div>
+		<hr class="line">
+		<div class="roi-results row">
+			<?php
+			$fields = $calculated_fields;
+			foreach ($fields as $index => $field) :
+				$colSize = 'col-md-4';
+				$bigFont = '';
+				if ($index < 2) {
+					$colSize = 'col-md-6';
+					$bigFont = 'big-font';
+				}
+			?>
+				<div class="<?=$colSize; ?> <?=$bigFont;?>  d-flex justify-content-center align-items-center text-center">
+					<p class="roi-result" data-key="<?=$field['key']; ?>">
+						<?= $field['label']; ?>: <br><span>0</span>
+					</p>
+				</div>
+
+			<?php endforeach; ?>
+		</div>
+
 	</div>
 <?php
 	return ob_get_clean();

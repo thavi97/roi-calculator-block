@@ -121,6 +121,9 @@ function Edit({
               label: 'Number',
               value: 'number'
             }, {
+              label: 'Money',
+              value: 'money'
+            }, {
               label: 'Text',
               value: 'text'
             }, {
@@ -167,6 +170,15 @@ function Edit({
             type: "number",
             step: "1",
             placeholder: "Enter maximum value"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Step",
+            value: field.step,
+            onChange: val => {
+              updateInputField(index, 'step', val);
+            },
+            type: "number",
+            step: "0.01",
+            placeholder: "Enter step value (Default: 1)"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             isDestructive: true,
             onClick: () => removeInputField(index),
@@ -192,6 +204,17 @@ function Edit({
             label: "Formula (e.g., input1 * input2 + 10)",
             value: field.formula,
             onChange: val => updateCalculatedField(index, 'formula', val)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+            label: "Is Currency",
+            value: field.isCurrency || 'no',
+            options: [{
+              label: 'Yes',
+              value: 'yes'
+            }, {
+              label: 'No',
+              value: 'no'
+            }],
+            onChange: val => updateCalculatedField(index, 'isCurrency', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             isDestructive: true,
             onClick: () => removeCalculatedField(index),

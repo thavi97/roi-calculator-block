@@ -72,11 +72,12 @@ export default function Edit({ attributes, setAttributes }) {
 								value={field.type}
 								options={[
 									{ label: 'Number', value: 'number' },
+									{ label: 'Money', value: 'money' },
 									{ label: 'Text', value: 'text' },
 									{ label: 'Slider', value: 'range' },
 								]}
 								onChange={(val) => updateInputField(index, 'type', val)}
-							/>													
+							/>
 							{field.type === 'range' && (
 								<SelectControl
 									label="Is Percentage"
@@ -118,7 +119,16 @@ export default function Edit({ attributes, setAttributes }) {
 								step="1"
 								placeholder="Enter maximum value"
 							/>
-
+							<TextControl
+								label="Step"
+								value={field.step}
+								onChange={(val) => {
+									updateInputField(index, 'step', val);
+								}}
+								type="number"
+								step="0.01"
+								placeholder="Enter step value (Default: 1)"
+							/>						
 							<Button isDestructive onClick={() => removeInputField(index)}>
 								Remove Field
 							</Button>
@@ -147,6 +157,16 @@ export default function Edit({ attributes, setAttributes }) {
 								value={field.formula}
 								onChange={(val) => updateCalculatedField(index, 'formula', val)}
 							/>
+							<SelectControl
+								label="Is Currency"
+								value={field.isCurrency || 'no'}
+								options={[
+									{ label: 'Yes', value: 'yes' },
+									{ label: 'No', value: 'no' },
+								]}
+								onChange={(val) => updateCalculatedField(index, 'isCurrency', val)}
+							/>
+
 							<Button isDestructive onClick={() => removeCalculatedField(index)}>
 								Remove Field
 							</Button>

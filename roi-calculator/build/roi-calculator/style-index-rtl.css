@@ -1,28 +1,128 @@
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/roi-calculator/style.scss ***!
   \******************************************************************************************************************************************************************************************************************************************************/
-.roi-calculator-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.roi-calculator {
+  display: block;
+  background-color: #286cfc;
+  padding: 2.5rem 0;
+  border-radius: 20px;
+  color: #ffffff;
 }
-
-.roi-calculator-form .calculated-profit {
-  margin-top: 15px;
+.roi-calculator .roi-label {
+  position: relative;
+  width: 100%;
+  padding: 0 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.roi-calculator .roi-label input {
+  display: block;
+  width: 85%;
+}
+.roi-calculator .roi-label .range-value {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+}
+.roi-calculator .line {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background-color: #ffffff;
+  margin: 2rem 0;
+  opacity: 1;
+}
+.roi-calculator .roi-results {
+  padding: 0 2.5rem;
+}
+.roi-calculator .roi-results .roi-result span {
   font-weight: bold;
 }
-
-.roi-calculator-result {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.roi-calculator .roi-results .big-font span {
+  font-size: 26px;
 }
-
-button {
-  background-color: #0073aa;
-  color: #fff;
-  border: none;
-  padding: 10px;
+.roi-calculator input[type=range] {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 6px;
+  background: #ffffff;
+  margin-top: 0.5rem;
+  border-radius: 3px;
+  /* Additional adjustments for better Firefox */
+}
+.roi-calculator input[type=range]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #ffffff;
+  border-radius: 3px;
+}
+.roi-calculator input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #0cfbac;
+  border: 2px solid #0cfbac;
+  border-radius: 50%;
+  margin-top: -5px;
   cursor: pointer;
-  border-radius: 5px;
+}
+.roi-calculator input[type=range]::-moz-range-track {
+  height: 6px;
+  background: #ffffff;
+  border-radius: 3px;
+}
+.roi-calculator input[type=range]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: #0cfbac;
+  border: 2px solid #0cfbac;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.roi-calculator input[type=range]::-ms-track {
+  height: 6px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.roi-calculator input[type=range]::-ms-fill-lower {
+  background: #0cfbac;
+  border-radius: 3px;
+}
+.roi-calculator input[type=range]::-ms-fill-upper {
+  background: #ffffff;
+  border-radius: 3px;
+}
+.roi-calculator input[type=range]::-ms-thumb {
+  width: 10px;
+  height: 10px;
+  background: #0cfbac;
+  border: 2px solid #0cfbac;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.roi-calculator input[type=range]::-webkit-slider-runnable-track {
+  background: #ffffff;
+}
+.roi-calculator input[type=range]::-webkit-slider-runnable-track:after {
+  content: "";
+  position: absolute;
+  height: 6px;
+  background: #0cfbac;
+  border-radius: 3px;
+  width: calc(var(--value) * 1%);
+}
+.roi-calculator input[type=range]::-moz-range-progress {
+  background: #0cfbac;
+  height: 6px;
+  border-radius: 3px;
+}
+.roi-calculator input[type=number] {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #ffffff;
+  color: #ffffff;
+  width: 100%;
+}
+.roi-calculator input[type=number]:focus {
+  outline: none;
+  border-bottom-color: #0cfbac;
 }

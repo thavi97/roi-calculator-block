@@ -107,11 +107,19 @@ document.addEventListener('DOMContentLoaded', () => {
           value = parseFloat(input.value) || 0;
           const isPercentage = input.dataset.percentage === 'yes';
 
-          // Update the displayed value of the range slider dynamically
+          // Update the displayed value before modifying the value
           const rangeValueDisplay = input.nextElementSibling;
           if (rangeValueDisplay) {
-            rangeValueDisplay.textContent = value + (isPercentage ? '%' : '');
+            rangeValueDisplay.textContent = input.value + (isPercentage ? '%' : '');
           }
+          // Internally use decimal if it's a percentage
+          if (isPercentage) {
+            value = value / 100;
+          }
+        } else if (input.dataset.type === 'money') {
+          value = parseFloat(input.value) || 0;
+          value = parseFloat(value.toFixed(2));
+          input.value = value.toFixed(2); // visually force 2 decimals
         } else {
           // For other input types (number, text), use the input's value
           value = parseFloat(input.value) || 0;
@@ -136,16 +144,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = (0,_evaluateFormula__WEBPACK_IMPORTED_MODULE_0__.evaluateFormula)(field.formula, valuesCopy);
             if (result !== 'Error') {
               valuesCopy[field.key] = result;
-
-              // Update DOM
               const el = calc.querySelector(`.roi-result[data-key="${field.key}"] span`);
               if (el) {
-                el.textContent = isNaN(result) ? 'Error' : result.toFixed(2);
+                const fieldDefinition = formulas.find(function (f) {
+                  return f.key === field.key;
+                });
+                let shouldShowCurrency = false;
+                if (fieldDefinition.isCurrency === 'yes') {
+                  shouldShowCurrency = true;
+                }
+                let formattedValue;
+                if (isNaN(result)) {
+                  formattedValue = 'Error';
+                } else {
+                  let numberString = Number(result).toLocaleString(undefined, {
+                    maximumFractionDigits: 2
+                  });
+                  if (shouldShowCurrency) {
+                    formattedValue = '£' + Number(result).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    });
+                  } else {
+                    formattedValue = numberString;
+                  }
+                }
+                el.textContent = formattedValue;
               }
-
-              // Remove from remaining to calculate
               remaining.splice(i, 1);
-              i--; // Adjust index after removal
+              i--;
             }
           } catch (e) {
             // If error, skip and try again later
@@ -153,11 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     };
-
-    // Event listeners for input changes to trigger the calculation
     inputs.forEach(input => input.addEventListener('input', calculate));
-
-    // Initial calculation to set the default result values
     calculate();
   });
 });
