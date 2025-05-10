@@ -49,7 +49,6 @@ function roi_calculator_block_render_callback($attributes)
     $textColor         = $attributes['textColor'] ?? '#ffffff';
     $sliderColor       = $attributes['sliderColor'] ?? '#00cc66';
 
-    // Add custom styles for this specific block
 	add_action('wp_head', function() use ($sliderColor) {
 		echo '<style>
 			.roi-calculator input[type="range"]::-webkit-slider-thumb {
@@ -84,13 +83,13 @@ function roi_calculator_block_render_callback($attributes)
     ob_start();
     ?>
     <div class="roi-calculator" 
-        style="background-color: <?= esc_attr($backgroundColor); ?>; color: <?= esc_attr($textColor); ?>;"
+        style="background-color: <?= $backgroundColor; ?>; color: <?= $textColor; ?>;"
         data-calculations='<?= esc_attr(wp_json_encode($calculated_fields)); ?>'>
         
         <div class="row">
             <?php foreach ($input_fields as $field) : ?>
                 <div class="col-md-6">
-                    <label class="roi-label">
+                    <label class="roi-label" for="<?= $field['key']; ?>">
                         <?= esc_html($field['label']); ?>
                         <input 
                             type="<?= esc_attr($field['type'] === 'range' ? 'range' : ($field['type'] === 'money' ? 'number' : $field['type'])); ?>"
