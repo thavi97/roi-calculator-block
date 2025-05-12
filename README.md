@@ -53,6 +53,10 @@ You can use the plugin by creating it in the Gutenberg editor as shown on any pa
 ![image](https://github.com/user-attachments/assets/9f310382-67bb-40f7-97cf-66582eb00c6e)
 
 Once created, you can edit the details on the right hand pane. This includes, background colour, font size, labels, formulas etc.
+There are separate tabs for Input Fields and Calculated Fields.
+
+The input fields are the fields that the user can manipulate.
+The calculated fields are the fields that display the answer to the given formula.
 ![image](https://github.com/user-attachments/assets/84a3eb17-8a34-4f50-9243-fcde1f3b58b8)
 
 Once the page is saved, view and use the calculator by visiting the page.
