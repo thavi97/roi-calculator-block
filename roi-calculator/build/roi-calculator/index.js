@@ -52,7 +52,7 @@ function Edit({
     setAttributes({
       fontSize: newFontSize
     });
-    document.documentElement.style.setProperty('--base-font-size', newFontSize); // Apply to root CSS
+    document.documentElement.style.setProperty('--base-font-size', newFontSize);
   };
 
   // Update input field attributes
@@ -219,9 +219,10 @@ function Edit({
             placeholder: "Enter minimum value"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
             label: "Max Value",
-            value: field.max,
+            value: field.max
+            // Update the max value and ensure min is not larger than max
+            ,
             onChange: val => {
-              // Update the max value and ensure min is not larger than max
               const newMax = parseFloat(val) || 0;
               if (field.min && newMax < parseFloat(field.min)) {
                 updateInputField(index, 'min', newMax);

@@ -12,11 +12,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   evaluateFormula: () => (/* binding */ evaluateFormula)
 /* harmony export */ });
+// Evaluate a formula string with given values
+
+// Eg
+// Evaluating formula: profitPerUnit * unitsPerYear
+// With values: Object { percIncrease: 0.1, hours: 24, days: 7, weeksPerYear: 50, unitsPerHour: 22500, profitPerUnit: 2, hoursInAWeek: 168, extraHours: 16.8, extraUnitsPerWeek: 378000, unitsPerYear: 18900000 }
+// The result will be 37800000
+
 function evaluateFormula(formula, values) {
   const keys = Object.keys(values);
   const vals = Object.values(values);
-  const fn = new Function(...keys, `return ${formula}`);
-  const result = fn(...vals);
+
+  // Create a dynamic function to evaluate the formula
+  // Eg:
+  // function anonymous(percIncrease, hours, days, weeksPerYear, unitsPerHour, profitPerUnit, hoursInAWeek, extraHours, extraUnitsPerWeek, unitsPerYear) {
+  //      return profitPerUnit * unitsPerYear;
+  // }
+  const evaluateFormula = new Function(...keys, `return ${formula}`);
+  const result = evaluateFormula(...vals);
   return isNaN(result) ? 'Error' : result;
 }
 
@@ -94,7 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultElems = calc.querySelectorAll('.roi-result'); // Get all result display elements
     const formulas = JSON.parse(calc.dataset.calculations || '[]'); // Get formulas from the block's data attribute
 
-    // Function to perform calculation
+    /* Function to perform calculation in real time
+    * This function will be called whenever an input changes
+    */
     const calculate = () => {
       const values = {};
 
@@ -102,8 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
       inputs.forEach(input => {
         const key = input.dataset.key;
         let value;
+
+        // For range inputs, we get the value and update the adjacent span
         if (input.type === 'range') {
-          // For range inputs, we get the value and update the adjacent span
           value = parseFloat(input.value) || 0;
           const isPercentage = input.dataset.percentage === 'yes';
 
@@ -112,16 +128,20 @@ document.addEventListener('DOMContentLoaded', () => {
           if (rangeValueDisplay) {
             rangeValueDisplay.textContent = input.value + (isPercentage ? '%' : '');
           }
+
           // Internally use decimal if it's a percentage
           if (isPercentage) {
             value = value / 100;
           }
-        } else if (input.dataset.type === 'money') {
+        }
+        // For money inputs, the value is formatted to 2 decimal places
+        else if (input.dataset.type === 'money') {
           value = parseFloat(input.value) || 0;
           value = parseFloat(value.toFixed(2));
-          input.value = value.toFixed(2); // visually force 2 decimals
-        } else {
-          // For other input types (number, text), use the input's value
+          input.value = value.toFixed(2);
+        }
+        // For other input types (number, text), use the input's value
+        else {
           value = parseFloat(input.value) || 0;
         }
         values[key] = value;
@@ -136,6 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let safetyCounter = 100; // Prevent infinite loop
 
+      // Some formulas depend on others existing first
+      // If a formula doesn't work yet, it will be stored in the remaining array.
+      // This loop will keep trying to evaluate until all formulas are resolved or we hit the safety counter
       while (remaining.length && safetyCounter--) {
         for (let i = 0; i < remaining.length; i++) {
           const field = remaining[i];
@@ -149,10 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fieldDefinition = formulas.find(function (f) {
                   return f.key === field.key;
                 });
+
+                // This check is to determine if the field is a currency or not
+                // If the field is a currency, show it as a currency
                 let shouldShowCurrency = false;
                 if (fieldDefinition.isCurrency === 'yes') {
                   shouldShowCurrency = true;
                 }
+
+                // First check if the result is a number
+                // If it's not a number, display an error message.
+                // If it is a number, format it.
                 let formattedValue;
                 if (isNaN(result)) {
                   formattedValue = 'Error';

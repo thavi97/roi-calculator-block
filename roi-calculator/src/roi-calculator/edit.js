@@ -15,7 +15,7 @@ export default function Edit({ attributes, setAttributes }) {
 	// Update font size attribute
 	const updateFontSize = (newFontSize) => {
 		setAttributes({ fontSize: newFontSize });
-		document.documentElement.style.setProperty('--base-font-size', newFontSize); // Apply to root CSS
+		document.documentElement.style.setProperty('--base-font-size', newFontSize);
 	};
 
 
@@ -69,6 +69,7 @@ export default function Edit({ attributes, setAttributes }) {
 		<div {...useBlockProps()}>
 			<InspectorControls>
 
+				{/* Adjust the color settings */}
 				<PanelColorSettings
 					title="Color Settings"
 					initialOpen={true}
@@ -91,6 +92,7 @@ export default function Edit({ attributes, setAttributes }) {
 					]}
 				/>
 
+				{/* Adjust the font size */}
 				<PanelBody title="Font Size" initialOpen={true}>
 					<FontSizePicker
 						value={fontSize}
@@ -105,20 +107,25 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 
-
+				{/* Create the input fields */}
 				<PanelBody title="Input Fields" initialOpen={true}>
 					{inputFields.map((field, index) => (
 						<Fragment key={index}>
+							{/* Edit the label */}
 							<TextControl
 								label="Label"
 								value={field.label}
 								onChange={(val) => updateInputField(index, 'label', val)}
 							/>
+
+							{/* Edit the key */}
 							<TextControl
 								label="Key"
 								value={field.key}
 								onChange={(val) => updateInputField(index, 'key', val)}
 							/>
+
+							{/* Edit the placeholder */}
 							<SelectControl
 								label="Input Type"
 								value={field.type}
@@ -130,6 +137,8 @@ export default function Edit({ attributes, setAttributes }) {
 								]}
 								onChange={(val) => updateInputField(index, 'type', val)}
 							/>
+
+							{/* This field determines whether the value are percentages */}
 							{field.type === 'range' && (
 								<SelectControl
 									label="Is Percentage"
@@ -141,6 +150,8 @@ export default function Edit({ attributes, setAttributes }) {
 									onChange={(val) => updateInputField(index, 'isPercentage', val)}
 								/>
 							)}
+
+							{/* Adjust the minimum value */}
 							<TextControl
 								label="Min Value"
 								value={field.min}
@@ -156,11 +167,13 @@ export default function Edit({ attributes, setAttributes }) {
 								step="1"
 								placeholder="Enter minimum value"
 							/>
+
+							{/* Adjust the maximum value */}
 							<TextControl
 								label="Max Value"
 								value={field.max}
-								onChange={(val) => {
-									// Update the max value and ensure min is not larger than max
+								// Update the max value and ensure min is not larger than max
+								onChange={(val) => {									
 									const newMax = parseFloat(val) || 0;
 									if (field.min && newMax < parseFloat(field.min)) {
 										updateInputField(index, 'min', newMax);
@@ -171,6 +184,8 @@ export default function Edit({ attributes, setAttributes }) {
 								step="1"
 								placeholder="Enter maximum value"
 							/>
+
+							{/* Adjust the step value */}
 							<TextControl
 								label="Step"
 								value={field.step}
@@ -190,25 +205,32 @@ export default function Edit({ attributes, setAttributes }) {
 					<Button onClick={addInputField}>Add Input Field</Button>
 				</PanelBody>
 
-
+				{/* Adjust the calculated fields */}
 				<PanelBody title="Calculated Fields" initialOpen={false}>
 					{calculatedFields.map((field, index) => (
 						<Fragment key={index}>
+							{/* Edit the label */}
 							<TextControl
 								label="Label"
 								value={field.label}
 								onChange={(val) => updateCalculatedField(index, 'label', val)}
 							/>
+
+							{/* Edit the key */}
 							<TextControl
 								label="Key"
 								value={field.key}
 								onChange={(val) => updateCalculatedField(index, 'key', val)}
 							/>
+
+							{/* Edit the formula */}
 							<TextControl
 								label="Formula (e.g., input1 * input2 + 10)"
 								value={field.formula}
 								onChange={(val) => updateCalculatedField(index, 'formula', val)}
 							/>
+
+							{/* This field determines whether the value is a currency */}
 							<SelectControl
 								label="Is Currency"
 								value={field.isCurrency || 'no'}

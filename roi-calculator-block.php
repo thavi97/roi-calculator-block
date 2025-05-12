@@ -37,14 +37,15 @@ add_action('wp_enqueue_scripts', 'my_roi_calculator_enqueue_bootstrap');
 
 /**
  * Callback function for rendering the ROI Calculator Block on the frontend.
+ * This function generates the HTML output for the block based on the provided attributes.
  *
  * @param array $attributes Block attributes.
  * @return string Rendered HTML.
  */
 function roi_calculator_block_render_callback($attributes)
 {
-	$input_fields      = $attributes['inputFields'] ?? [];
-	$calculated_fields = $attributes['calculatedFields'] ?? [];
+	$inputFields      = $attributes['inputFields'] ?? [];
+	$calculatedFields = $attributes['calculatedFields'] ?? [];
 	$backgroundColor   = $attributes['backgroundColor'] ?? '#286cfc';
 	$textColor         = $attributes['textColor'] ?? '#ffffff';
 	$sliderColor       = $attributes['sliderColor'] ?? '#00cc66';
@@ -82,15 +83,14 @@ function roi_calculator_block_render_callback($attributes)
 
 	ob_start();
 ?>
-	<div class="roi-calculator"
-		style="background-color: <?= $backgroundColor; ?>; color: <?= $textColor; ?>; font-size: <?= $attributes['fontSize'] ?? '16px'; ?>;"
+	<div class="roi-calculator" style="background-color: <?= $backgroundColor; ?>; color: <?= $textColor; ?>; font-size: <?= $attributes['fontSize'] ?? '16px'; ?>;" 
+		data-calculations='<?= esc_attr(wp_json_encode($calculatedFields)); ?>'>
 
-		data-calculations='<?= esc_attr(wp_json_encode($calculated_fields)); ?>'>
-
-		<div class="row">
-			<?php foreach ($input_fields as $field) : ?>
+		<!-- Display all of the input fields -->
+		<div class="row">		
+			<?php foreach ($inputFields as $field) : ?>
 				<div class="col-md-6">
-					<label class="roi-label" for="<?= $field['key']; ?>">
+					<label class="roi-label" for="<?= esc_attr($field['key']); ?>">
 						<?= esc_html($field['label']); ?>
 						<input
 							type="<?= esc_attr($field['type'] === 'range' ? 'range' : ($field['type'] === 'money' ? 'number' : $field['type'])); ?>"
@@ -116,11 +116,13 @@ function roi_calculator_block_render_callback($attributes)
 			<?php endforeach; ?>
 		</div>
 
+		<!-- Divider -->
 		<hr class="line">
 
+		<!-- Display all of the calculated fields -->
 		<div class="roi-results row">
 			<?php
-			$fields = $calculated_fields;
+			$fields = $calculatedFields;
 			foreach ($fields as $index => $field) :
 				$colSize = 'col-md-4';
 				$bigFont = '';
