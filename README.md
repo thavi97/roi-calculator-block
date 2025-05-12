@@ -35,11 +35,11 @@ Extract the downloaded folder into your local dev environment's htdocs folder.
 
 ### 2. Install the Plugin
 
-To install the plugin, download this project and copy the plugin in this project from wp-content\plugins\roi-calculator-block into your plugins folder.
+To install the plugin, clone this repository to your Wordpress project's plugins folder.
 
 Remember to activate it on the Wordpress admin.
 
-## To install dependencies run the following commands inside wp-content\plugins\roi-calculator-block\roi-calculator
+## To install dependencies (for development) run the following commands inside wp-content\plugins\roi-calculator-block\roi-calculator
 - npm install
 - npm run build
 
