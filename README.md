@@ -1,6 +1,6 @@
 # ROI Calculator Block (WordPress Gutenberg Block)
 
-A customizable ROI (Return on Investment) calculator block for WordPress. Easily configure input fields, calculated outputs, and styling via the block editor.
+A customisable ROI (Return on Investment) calculator block for WordPress. Easily configure input fields, calculated outputs, and styling via the block editor.
 
 ---
 
