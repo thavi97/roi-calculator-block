@@ -225,7 +225,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 							{/* Edit the formula */}
 							<TextControl
-								label="Formula (e.g., input1 * input2 + 10)"
+								label="Formula (e.g., key1 * key2 + 10)"
 								value={field.formula}
 								onChange={(val) => updateCalculatedField(index, 'formula', val)}
 							/>

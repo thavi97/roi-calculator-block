@@ -263,7 +263,7 @@ function Edit({
             value: field.key,
             onChange: val => updateCalculatedField(index, 'key', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Formula (e.g., input1 * input2 + 10)",
+            label: "Formula (e.g., key1 * key2 + 10)",
             value: field.formula,
             onChange: val => updateCalculatedField(index, 'formula', val)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
