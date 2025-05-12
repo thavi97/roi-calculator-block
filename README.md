@@ -30,6 +30,8 @@ You can download the latest version of Wordpress here: https://wordpress.org/dow
 
 Extract the downloaded folder into your local dev environment's htdocs folder.
 
+Visit https://localhost/name-of-your-project/ and go through the installation process
+
 
 ---
 
