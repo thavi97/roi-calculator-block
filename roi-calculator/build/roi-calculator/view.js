@@ -28,8 +28,8 @@ function evaluateFormula(formula, values) {
   // function anonymous(percIncrease, hours, days, weeksPerYear, unitsPerHour, profitPerUnit, hoursInAWeek, extraHours, extraUnitsPerWeek, unitsPerYear) {
   //      return profitPerUnit * unitsPerYear;
   // }
-  const evaluateFormula = new Function(...keys, `return ${formula}`);
-  const result = evaluateFormula(...vals);
+  const evaluate = new Function(...keys, `return ${formula}`);
+  const result = evaluate(...vals);
   return isNaN(result) ? 'Error' : result;
 }
 
@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Iterate over each ROI Calculator block on the page
   document.querySelectorAll('.roi-calculator').forEach(calc => {
     const inputs = calc.querySelectorAll('input'); // Get all input fields
-    const resultElems = calc.querySelectorAll('.roi-result'); // Get all result display elements
     const formulas = JSON.parse(calc.dataset.calculations || '[]'); // Get formulas from the block's data attribute
 
     /* Function to perform calculation in real time

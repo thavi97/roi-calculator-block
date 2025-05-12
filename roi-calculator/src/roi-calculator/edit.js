@@ -12,13 +12,6 @@ export default function Edit({ attributes, setAttributes }) {
 		fontSize = '16px',
 	} = attributes;
 
-	// Update font size attribute
-	const updateFontSize = (newFontSize) => {
-		setAttributes({ fontSize: newFontSize });
-		document.documentElement.style.setProperty('--base-font-size', newFontSize);
-	};
-
-
 	// Update input field attributes
 	const updateInputField = (index, key, value) => {
 		const newFields = [...inputFields];
@@ -125,7 +118,7 @@ export default function Edit({ attributes, setAttributes }) {
 								onChange={(val) => updateInputField(index, 'key', val)}
 							/>
 
-							{/* Edit the placeholder */}
+							{/* Select the field type */}
 							<SelectControl
 								label="Input Type"
 								value={field.type}

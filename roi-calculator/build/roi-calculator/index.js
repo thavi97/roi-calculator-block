@@ -47,14 +47,6 @@ function Edit({
     fontSize = '16px'
   } = attributes;
 
-  // Update font size attribute
-  const updateFontSize = newFontSize => {
-    setAttributes({
-      fontSize: newFontSize
-    });
-    document.documentElement.style.setProperty('--base-font-size', newFontSize);
-  };
-
   // Update input field attributes
   const updateInputField = (index, key, value) => {
     const newFields = [...inputFields];

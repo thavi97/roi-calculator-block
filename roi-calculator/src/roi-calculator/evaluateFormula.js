@@ -14,7 +14,7 @@ export function evaluateFormula(formula, values) {
     // function anonymous(percIncrease, hours, days, weeksPerYear, unitsPerHour, profitPerUnit, hoursInAWeek, extraHours, extraUnitsPerWeek, unitsPerYear) {
     //      return profitPerUnit * unitsPerYear;
     // }
-    const evaluateFormula = new Function(...keys, `return ${formula}`);
-    const result = evaluateFormula(...vals);
+    const evaluate = new Function(...keys, `return ${formula}`);
+    const result = evaluate(...vals);
     return isNaN(result) ? 'Error' : result;
 }
