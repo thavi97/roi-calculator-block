@@ -1,0 +1,170 @@
+$blue: #286cfc;
+$white: #ffffff;
+$green: #0cfbac;
+
+:root {
+    --base-font-size: 16px; /* Default font size, can be updated via JS */
+}
+
+.roi-calculator {
+	display: block;
+	background-color: $blue;
+	padding: 2.5rem 0;
+	border-radius: 20px;
+	color: $white;
+	font-size: var(--base-font-size); /* Use the root font size variable */
+
+	.roi-label {
+		position: relative;
+		width: 100%;
+		padding: 0 2.5rem;
+		margin-bottom: 1.5rem;
+
+		input {
+			display: block;
+			width: 85%;
+		}
+
+		.range-value {
+			position: absolute;
+			right: 40px;
+			top: 50%;
+		}
+	}
+
+	.line {
+		display: block;
+		width: 100%;
+		height: 4px;
+		background-color: $white;
+		margin: 2rem 0;
+		opacity: 1;
+	}
+
+
+	.roi-results {
+		padding: 0 2.5rem;
+
+		.roi-result {
+			span {
+				font-weight: bold;
+				font-size: 1rem;
+			}
+
+		}
+
+		.big-font {
+			span {
+				font-size: 2rem;
+			}
+		}
+
+	}
+
+	// Range input styles
+	input[type="range"] {
+		// Removes default styling
+		-webkit-appearance: none;
+		width: 80%;
+		height: 6px;
+		background: $white;
+		margin-top: 0.5rem;
+		border-radius: 3px;
+
+		// WebKit (Chrome, Safari)
+		&::-webkit-slider-runnable-track {
+			height: 6px;
+			background: $white;
+			border-radius: 3px;
+		}
+
+		// WebKit Thumb
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 10px;
+			height: 10px;
+			background: $green;
+			border: 2px solid $green;
+			border-radius: 50%;
+			margin-top: -5px;
+			cursor: pointer;
+		}
+
+		// Firefox
+		&::-moz-range-track {
+			height: 6px;
+			background: $white;
+			border-radius: 3px;
+		}
+
+		&::-moz-range-thumb {
+			width: 10px;
+			height: 10px;
+			background: $green;
+			border: 2px solid $green;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+
+		// Edge / IE
+		&::-ms-track {
+			height: 6px;
+			background: transparent;
+			border-color: transparent;
+			color: transparent;
+		}
+
+		&::-ms-fill-lower {
+			background: $green;
+			border-radius: 3px;
+		}
+
+		&::-ms-fill-upper {
+			background: $white;
+			border-radius: 3px;
+		}
+
+		&::-ms-thumb {
+			width: 10px;
+			height: 10px;
+			background: $green;
+			border: 2px solid $green;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+
+		&::-webkit-slider-runnable-track {
+			background: $white;
+		}
+
+		&::-webkit-slider-runnable-track:after {
+			content: '';
+			position: absolute;
+			height: 6px;
+			background: $green;
+			border-radius: 3px;
+			width: calc(var(--value) * 1%);
+		}
+
+		/* Additional adjustments for better Firefox */
+		&::-moz-range-progress {
+			background: $green;
+			height: 6px;
+			border-radius: 3px;
+		}
+	}
+
+	input[type="number"] {
+		background: transparent;
+		border: none;
+		border-bottom: 2px solid $white;
+		color: $white;
+		width: 100%;
+
+		&:focus {
+			outline: none;
+			border-bottom-color: $green;
+		}
+	}
+
+}
