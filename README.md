@@ -39,7 +39,7 @@ To install the plugin, clone this repository to your Wordpress project's plugins
 
 Remember to activate it on the Wordpress admin.
 
-## To install dependencies (for development) run the following commands inside wp-content\plugins\roi-calculator-block\roi-calculator
+## To install dependencies (for development) run the following commands inside *\roi-calculator
 - npm install
 - npm run build
 
